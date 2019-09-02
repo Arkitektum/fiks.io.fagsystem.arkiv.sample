@@ -6,7 +6,7 @@ namespace ks.fiks.io.fagsystem.arkiv.sample
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+           
         }
     }
 }
