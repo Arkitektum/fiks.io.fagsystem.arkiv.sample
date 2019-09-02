@@ -12,7 +12,7 @@ Strategirapporten foresl√•r en inndeling av brukergrupper og meldinger basert p√
 - Etablere eMelding for arkivering som er bakoverkompatibel med GI Arkiv, evt med adapter
 - Etablere eMelding for arkivering med utvidet funksjonalitet
 
-[Skisse overordnet arkitektur]()
+[Skisse overordnet arkitektur](ks.fiks.io.fagsystem.arkiv.sample/doc/eMeldingArkiv.png)
 
  ## Oppsett i FIKS Integrasjon
 TBC
