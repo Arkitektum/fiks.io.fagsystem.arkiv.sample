@@ -18,8 +18,8 @@ Strategirapporten foreslår en inndeling av brukergrupper og meldinger basert p�
 TBC
 
 ## FIKS IO meldingsprotokoll - Forenklet arkivering
-For fagsystemer så må meldingsprotokoll no.geointegrasjon.arkiv.oppdatering.forenklet støttes som avsender
-For arkivsystem så må meldingsprotokoll no.geointegrasjon.arkiv.oppdatering.forenklet støttes som mottaker
+- For fagsystemer så må meldingsprotokoll no.geointegrasjon.arkiv.oppdatering.forenklet støttes som avsender
+- For arkivsystem så må meldingsprotokoll no.geointegrasjon.arkiv.oppdatering.forenklet støttes som mottaker
 
 ### Meldinger fra fagsystem til arkiv
 - Opprette ny saksmappe i arkivet
@@ -27,3 +27,12 @@ For arkivsystem så må meldingsprotokoll no.geointegrasjon.arkiv.oppdatering.fo
 - Opprette en ny utgående journalpost
 - Opprette arkivnotat
 - TBC
+
+## FIKS IO meldingsprotokoll - GI bakoverkompatibel arkivering
+- For fagsystemer så må meldingsprotokoll no.geointegrasjon.arkiv.oppdatering.basis støttes som avsender
+- For arkivsystem så må meldingsprotokoll no.geointegrasjon.arkiv.oppdatering.basis støttes som mottaker
+
+## FIKS IO meldingsprotokoll - arkivering utvidet funksjonalitet
+- For fagsystemer så må meldingsprotokoll no.geointegrasjon.arkiv.oppdatering.utvidet støttes som avsender
+- For arkivsystem så må meldingsprotokoll no.geointegrasjon.arkiv.oppdatering.utvidet støttes som mottaker
+- Denne kan feks benytte Difi eFormidling sin [arkivmelding](https://difi.github.io/eformidling/message.html#arkivmelding)
