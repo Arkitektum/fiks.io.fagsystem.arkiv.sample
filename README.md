@@ -20,11 +20,12 @@ TBC
 ## FIKS IO meldingsprotokoll - Forenklet arkivering
 - For fagsystemer så må meldingsprotokoll no.geointegrasjon.arkiv.oppdatering.forenklet støttes som avsender
 - For arkivsystem så må meldingsprotokoll no.geointegrasjon.arkiv.oppdatering.forenklet støttes som mottaker
+![Forenklet datamodell](ks.fiks.io.fagsystem.arkiv.sample/doc/datamodellforenklet.png)
 
 ### Meldinger fra fagsystem til arkiv
 - Opprette ny saksmappe i arkivet
 - Opprette en ny innkommende journalpost
-- Opprette en ny utgående journalpost
+- Opprette en ny utgående journalpost [no.geointegrasjon.arkiv.oppdatering.forenklet.nyutgaaendejournalpost.v2](ks.fiks.io.fagsystem.arkiv.sample/schema/no.geointegrasjon.arkiv.oppdatering.forenklet.arkivmeldingforenklet.v2.schema.json) [Eksempel json](ks.fiks.io.fagsystem.arkiv.sample/samples/utgaaendejournalpost.json)
 - Opprette arkivnotat
 - TBC
 
