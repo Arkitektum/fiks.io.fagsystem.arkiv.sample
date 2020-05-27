@@ -11,13 +11,38 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
     {
         public static arkivmelding ConvertForenkletUtgaaendeToArkivmelding(ArkivmeldingForenkletUtgaaende input) {
             var arkivmld = new arkivmelding();
+            //TODO mapping
             arkivmld.system = input.sluttbrukerIdentifikator; //ikke riktig men...
             if (input.nyUtgaaendeJournalpost != null) {
-                
+                var journalpst = new journalpost();
+                journalpst.tittel = input.nyUtgaaendeJournalpost.tittel;
+                journalpst.journalposttype = journalposttype.Utgåendedokument;
 
+                if (input.nyUtgaaendeJournalpost.hoveddokument != null)
+                {
+                    var dokbesk = new dokumentbeskrivelse();
+                    dokbesk.dokumentstatus = dokumentstatus.Dokumenteterferdigstilt;
+                    dokbesk.tilknyttetRegistreringSom = tilknyttetRegistreringSom.Hoveddokument;
+                   
+                    var dok = new dokumentobjekt();
+                    dok.referanseDokumentfil = input.nyUtgaaendeJournalpost.hoveddokument.filnavn;
+                    List<dokumentobjekt> dokliste = new List<dokumentobjekt>();
+                    dokliste.Add(dok);
+
+                    dokbesk.dokumentobjekt = dokliste.ToArray();
+                    List<dokumentbeskrivelse> dokbliste = new List<dokumentbeskrivelse>();
+                    dokbliste.Add(dokbesk);
+
+                    journalpst.dokumentbeskrivelse = dokbliste.ToArray();
+                }
+                List<journalpost> jliste = new List<journalpost>();
+                jliste.Add(journalpst);
+                arkivmld.Items = jliste.ToArray();
 
             }
-            //TODO mapping
+            arkivmld.antallFiler = 1;
+
+
             return arkivmld;
 
         }

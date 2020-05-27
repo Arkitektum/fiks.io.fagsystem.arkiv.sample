@@ -51,7 +51,33 @@ Eksempel
             var msg = client.Send(messageRequest, payloads).Result;
 
 ```
-
+Eksempel på utgaaendejournalpost.xml
+```xml
+<?xml version="1.0" encoding="utf-16"?>
+<arkivmelding xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.arkivverket.no/standarder/noark5/arkivmelding">
+  <system>Fagsystem</system>
+  <tidspunkt>0001-01-01T00:00:00</tidspunkt>
+  <antallFiler>1</antallFiler>
+  <basisregistrering xsi:type="journalpost">
+    <opprettetDato>0001-01-01T00:00:00</opprettetDato>
+    <dokumentbeskrivelse>
+      <dokumentstatus>Dokumentet er ferdigstilt</dokumentstatus>
+      <opprettetDato>0001-01-01T00:00:00</opprettetDato>
+      <tilknyttetRegistreringSom>Hoveddokument</tilknyttetRegistreringSom>
+      <tilknyttetDato>0001-01-01T00:00:00</tilknyttetDato>
+      <dokumentobjekt>
+        <variantformat>Produksjonsformat</variantformat>
+        <opprettetDato>0001-01-01T00:00:00</opprettetDato>
+        <referanseDokumentfil>rekvisisjon.pdf</referanseDokumentfil>
+      </dokumentobjekt>
+    </dokumentbeskrivelse>
+    <tittel>Oppmålingsforretning dokument</tittel>
+    <journalposttype>Utgående dokument</journalposttype>
+    <journalstatus>Journalført</journalstatus>
+    <journaldato>0001-01-01</journaldato>
+  </basisregistrering>
+</arkivmelding>
+```
 - Opprette arkivnotat
 - TBC
 
