@@ -36,4 +36,4 @@ TBC
 ## FIKS IO meldingsprotokoll - arkivering utvidet funksjonalitet
 - For fagsystemer så må meldingsprotokoll no.geointegrasjon.arkiv.oppdatering.utvidet støttes som avsender
 - For arkivsystem så må meldingsprotokoll no.geointegrasjon.arkiv.oppdatering.utvidet støttes som mottaker
-- Denne kan feks benytte Difi eFormidling sin [arkivmelding](https://difi.github.io/eformidling/message.html#arkivmelding)
+- Denne kan feks benytte Difi eFormidling sin [arkivmelding](https://difi.github.io/felleslosninger/eformidling_nm_arkivmeldingen.html)
