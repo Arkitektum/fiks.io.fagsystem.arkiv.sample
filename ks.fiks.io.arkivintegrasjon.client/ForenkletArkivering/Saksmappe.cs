@@ -13,7 +13,7 @@ using System.IO;
 
 
 
-using GeoIntegrasjon.BasicTypes;
+
 using FIKS.eMeldingArkiv.eMeldingForenkletArkiv;
 namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 	public class Saksmappe {
@@ -27,7 +27,7 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// 
 		/// M011 saksaar
 		/// </summary>
-		public GeoIntegrasjon.BasicTypes.integer saksaar;
+		public int saksaar;
 		/// <summary>
 		/// Definisjon: Inngår i M003 mappeID. Viser rekkefølgen når saksmappen ble
 		/// opprettet innenfor året.
@@ -39,12 +39,12 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// 
 		/// M012 sakssekvensnummer
 		/// </summary>
-		public GeoIntegrasjon.BasicTypes.integer sakssekvensnummer;
+		public int sakssekvensnummer;
 		/// <summary>
 		/// angir mappetype som blant annet kan brukes som hint til hva som ligger i
 		/// virksomhetsspesifikkemetadata
 		/// </summary>
-		public Mappetype mappetype;
+		//public Mappetype mappetype;
 		/// <summary>
 		/// Definisjon: Datoen saken er opprettet
 		/// 
@@ -54,7 +54,7 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// 
 		/// M100 saksdato
 		/// </summary>
-		public date saksdato;
+		public DateTime saksdato;
 		/// <summary>
 		/// Definisjon: Tittel eller navn på arkivenheten
 		/// 
@@ -67,7 +67,7 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// 
 		/// M020
 		/// </summary>
-		public GeoIntegrasjon.BasicTypes.string tittel;
+		public string tittel;
 		/// <summary>
 		/// Definisjon: Navn på avdeling, kontor eller annen administrativ enhet som har
 		/// ansvaret for saksbehandlingen.
@@ -82,7 +82,7 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// 
 		/// M305 administrativEnhet
 		/// </summary>
-		public GeoIntegrasjon.BasicTypes.string administrativEnhet;
+		public string administrativEnhet;
 		/// <summary>
 		/// Definisjon: Offentlig tittel på arkivenheten, ord som skal skjermes er fjernet
 		/// fra innholdet i tittelen (erstattet med ******)
@@ -92,8 +92,8 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// 
 		/// M025
 		/// </summary>
-		public GeoIntegrasjon.BasicTypes.string offentligTittel;
-		public SystemID referanseAdministrativEnhet;
+		public string offentligTittel;
+		//public SystemID referanseAdministrativEnhet;
 		/// <summary>
 		/// Definisjon: Navn på person som er saksansvarlig
 		/// 
@@ -104,8 +104,8 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// 
 		/// M306 saksansvarlig
 		/// </summary>
-		public GeoIntegrasjon.BasicTypes.string saksansvarlig;
-		public SystemID referanseSaksansvarlig;
+		public string saksansvarlig;
+		//public SystemID referanseSaksansvarlig;
 		/// <summary>
 		/// Definisjon: Status til saksmappen, dvs. hvor langt saksbehandlingen har kommet.
 		/// 
@@ -117,7 +117,7 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// 
 		/// M052 saksstatus
 		/// </summary>
-		public Saksstatus saksstatus;
+		//public Saksstatus saksstatus;
 		/// <summary>
 		/// Definisjon: Navn på person som avsluttet/lukket arkivenheten
 		/// 
@@ -127,12 +127,12 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// 
 		/// M603
 		/// </summary>
-		public GeoIntegrasjon.BasicTypes.string avsluttetAv;
+		public string avsluttetAv;
 		/// <summary>
 		/// saU1 i n4
 		/// </summary>
-		public boolean skjermetTittel;
-		public EksternNøkkel referanseEksternNøkkel;
+		public Boolean skjermetTittel;
+		//public EksternNøkkel referanseEksternNøkkel;
 
 		public Saksmappe(){
 

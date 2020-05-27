@@ -5,6 +5,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using FIKS.eMeldingArkiv.eMeldingForenkletArkiv;
+using ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering;
 using Ks.Fiks.Maskinporten.Client;
 using KS.Fiks.IO.Client;
 using KS.Fiks.IO.Client.Configuration;
@@ -79,16 +81,16 @@ namespace ks.fiks.io.fagsystem.arkiv.sample
 
             Console.WriteLine("Abonnerer på meldinger på konto " + accountId.ToString() + " ...");
 
-            //Sende inngående
-            SendInngående();
+            
+            SendUtgående();
 
-            //Sende utgående
+
 
 
             return Task.CompletedTask;
         }
 
-        private void SendInngående()
+        private void SendUtgående()
         {
             Guid receiverId = Guid.Parse(config["sendToAccountId"]); // Receiver id as Guid
             Guid senderId = Guid.Parse(config["accountId"]); // Sender id as Guid
@@ -100,16 +102,29 @@ namespace ks.fiks.io.fagsystem.arkiv.sample
                                       mottakerKontoId: receiverId,
                                       avsenderKontoId: senderId,
                                       meldingType: "no.geointegrasjon.arkiv.oppdatering.arkivmeldingforenklet.v1"); // Message type as string
-                                                                                                                  //Se oversikt over meldingstyper på https://github.com/ks-no/fiks-io-meldingstype-katalog/tree/test/schema
+                                                                                                                    //Se oversikt over meldingstyper på https://github.com/ks-no/fiks-io-meldingstype-katalog/tree/test/schema
 
 
+            //Fagsystem definerer ønsket struktur
+            ArkivmeldingForenkletUtgaaende utg = new ArkivmeldingForenkletUtgaaende();
+            utg.sluttbrukerIdentifikator = "Fagsystem";
+            utg.nyUtgaaendeJournalpost = new UtgaaendeJournalpost();
+            utg.nyUtgaaendeJournalpost.tittel = "Oppmålingsforretning dokument";
+            utg.nyUtgaaendeJournalpost.hoveddokument = new ForenkletDokument();
+            utg.nyUtgaaendeJournalpost.hoveddokument.tittel = "Rekvisisjon av oppmålingsforretning";
+            utg.nyUtgaaendeJournalpost.hoveddokument.filnavn = "rekvisisjon.pdf";
+            //osv...
 
-            string payload = File.ReadAllText("samples/inngaaendejournalpost.json");
+            //Konverterer til arkivmelding xml
+            var arkivmelding = Arkivintegrasjon.ConvertForenkletUtgaaendeToArkivmelding(utg);
+            string payload = Arkivintegrasjon.Serialize(arkivmelding);
 
+            //Lager FIKS IO melding
             List<IPayload> payloads = new List<IPayload>();
-            payloads.Add(new StringPayload(payload, "inngaaendejournalpost.json"));
-            payloads.Add(new KS.Fiks.IO.Client.Models.FilePayload(@"samples\rekvisisjon.pdf"));
+            payloads.Add(new StringPayload(payload, "utgaaendejournalpost.xml"));
+            payloads.Add(new FilePayload(@"samples\rekvisisjon.pdf"));
 
+            //Sender til FIKS IO (arkiv løsning)
             var msg = client.Send(messageRequest, payloads).Result;
             Console.WriteLine("Melding " + msg.MeldingId.ToString() + " sendt..." + msg.MeldingType + "...med 1 vedlegg");
             Console.WriteLine(payload);

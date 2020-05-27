@@ -17,13 +17,13 @@ using FIKS.eMeldingArkiv.eMeldingForenkletArkiv;
 namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 	public class UtgaaendeJournalpost {
 
-		public KorrespondansepartIntern internAvsender;
-		public Avskrivning avskrivning;
-		public integer journalaar;
-		public integer journalsekvensnummer;
-		public integer journalpostnummer;
-		public Journalstatus journalstatus;
-		public date dokumentetsDato;
+		//public KorrespondansepartIntern internAvsender;
+		//public Avskrivning avskrivning;
+		public int journalaar;
+		public int journalsekvensnummer;
+		public int journalpostnummer;
+		//public Journalstatus journalstatus;
+		public DateTime dokumentetsDato;
 		/// <summary>
 		/// Definisjon: Dato et internt produsert dokument ble sendt/ekspedert
 		/// 
@@ -34,7 +34,7 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// 
 		/// M105 sendtDato
 		/// </summary>
-		public date sendtDato;
+		public DateTime sendtDato;
 		public ForenkletDokument hoveddokument;
 		/// <summary>
 		/// Definisjon: Dato et internt produsert dokument ble sendt/ekspedert
@@ -46,11 +46,11 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// 
 		/// M105 sendtDato
 		/// </summary>
-		public date offentlighetsvurdertDato;
-		public EksternNøkkel referanseEksternNøkkel;
+		public DateTime offentlighetsvurdertDato;
+		//public EksternNøkkel referanseEksternNøkkel;
 		public string tittel;
-		public FIKS.eMeldingArkiv.eMeldingForenkletArkiv.ForenkletDokument vedlegg;
-		public FIKS.eMeldingArkiv.eMeldingForenkletArkiv.Korrespondansepart eksternMottaker;
+		public List<ForenkletDokument> vedlegg;
+		//public Korrespondansepart eksternMottaker;
 
 		public UtgaaendeJournalpost(){
 

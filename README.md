@@ -26,6 +26,32 @@ TBC
 - Opprette ny saksmappe i arkivet
 - Opprette en ny innkommende journalpost
 - Opprette en ny utgående journalpost [no.geointegrasjon.arkiv.oppdatering.forenklet.nyutgaaendejournalpost.v2](ks.fiks.io.fagsystem.arkiv.sample/schema/no.geointegrasjon.arkiv.oppdatering.forenklet.arkivmeldingforenklet.v2.schema.json) [Eksempel json](ks.fiks.io.fagsystem.arkiv.sample/samples/utgaaendejournalpost.json)
+Eksempel
+```csharp
+            //Fagsystem definerer ønsket struktur
+            ArkivmeldingForenkletUtgaaende utg = new ArkivmeldingForenkletUtgaaende();
+            utg.sluttbrukerIdentifikator = "Fagsystem";
+            utg.nyUtgaaendeJournalpost = new UtgaaendeJournalpost();
+            utg.nyUtgaaendeJournalpost.tittel = "Oppmålingsforretning dokument";
+            utg.nyUtgaaendeJournalpost.hoveddokument = new ForenkletDokument();
+            utg.nyUtgaaendeJournalpost.hoveddokument.tittel = "Rekvisisjon av oppmålingsforretning";
+            utg.nyUtgaaendeJournalpost.hoveddokument.filnavn = "rekvisisjon.pdf";
+            //osv...
+
+            //Konverterer til arkivmelding xml
+            var arkivmelding = Arkivintegrasjon.ConvertForenkletUtgaaendeToArkivmelding(utg);
+            string payload = Arkivintegrasjon.Serialize(arkivmelding);
+
+            //Lager FIKS IO melding
+            List<IPayload> payloads = new List<IPayload>();
+            payloads.Add(new StringPayload(payload, "utgaaendejournalpost.xml"));
+            payloads.Add(new FilePayload(@"samples\rekvisisjon.pdf"));
+
+            //Sender til FIKS IO (arkiv løsning)
+            var msg = client.Send(messageRequest, payloads).Result;
+
+```
+
 - Opprette arkivnotat
 - TBC
 
