@@ -12,17 +12,18 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
         public static arkivmelding ConvertForenkletUtgaaendeToArkivmelding(ArkivmeldingForenkletUtgaaende input) {
             var arkivmld = new arkivmelding();
             //TODO mapping
-            arkivmld.system = input.sluttbrukerIdentifikator; //ikke riktig men...
+            
+
             if (input.nyUtgaaendeJournalpost != null) {
                 var journalpst = new journalpost();
                 journalpst.tittel = input.nyUtgaaendeJournalpost.tittel;
-                journalpst.journalposttype = journalposttype.Utgåendedokument;
+                journalpst.journalposttype = "U";
 
                 if (input.nyUtgaaendeJournalpost.hoveddokument != null)
                 {
                     var dokbesk = new dokumentbeskrivelse();
-                    dokbesk.dokumentstatus = dokumentstatus.Dokumenteterferdigstilt;
-                    dokbesk.tilknyttetRegistreringSom = tilknyttetRegistreringSom.Hoveddokument;
+                    dokbesk.dokumentstatus = "F";
+                    dokbesk.tilknyttetRegistreringSom = "H";
                    
                     var dok = new dokumentobjekt();
                     dok.referanseDokumentfil = input.nyUtgaaendeJournalpost.hoveddokument.filnavn;
@@ -41,7 +42,8 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
 
             }
             arkivmld.antallFiler = 1;
-
+            arkivmld.system = input.sluttbrukerIdentifikator;
+            arkivmld.tidspunkt = DateTime.Now;
 
             return arkivmld;
 
