@@ -4,7 +4,7 @@
     "sakssekvensnummer": "1234678"
   },
   "nyUtgaaendeJournalpost": {
-    "tittel": "Tillatelse til ....",
+    "tittel": "Tillatelse til deling....",
     "dokumentetsDato": "2019-06-05",
     "sendtDato": "2019-06-05",
     "internAvsender": "Saksbehandler...",
@@ -16,12 +16,12 @@
     "dokument": [
       {
         "dokumenttype": "VEDTAK",
-        "tittel": "Tillatelse til ....",
+        "tittel": "Tillatelse til deling....",
         "variantformat": "A",
         "format": "PDF/A",
         "tilknyttetRegistreringSom": "H",
         "dokumentnummer":  1,
-        "filnavn": "K-sak 112-12.pdf",
+        "filnavn": "vedtak.pdf",
         "mimeType":  "application/pdf"
       }
     ]
