@@ -42,7 +42,7 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
 
             }
             arkivmld.antallFiler = 1;
-            arkivmld.system = input.sluttbrukerIdentifikator;
+            arkivmld.system = input.nyUtgaaendeJournalpost.referanseEksternNøkkel.fagsystem;
             arkivmld.tidspunkt = DateTime.Now;
 
             return arkivmld;

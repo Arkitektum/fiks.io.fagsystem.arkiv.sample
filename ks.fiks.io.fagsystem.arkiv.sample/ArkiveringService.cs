@@ -101,18 +101,29 @@ namespace ks.fiks.io.fagsystem.arkiv.sample
             var messageRequest = new MeldingRequest(
                                       mottakerKontoId: receiverId,
                                       avsenderKontoId: senderId,
-                                      meldingType: "no.geointegrasjon.arkiv.oppdatering.arkivmeldingforenklet.v1"); // Message type as string
+                                      meldingType: "no.geointegrasjon.arkiv.oppdatering.arkivmeldingforenkletUtgaaende.v1"); // Message type as string
                                                                                                                     //Se oversikt over meldingstyper på https://github.com/ks-no/fiks-io-meldingstype-katalog/tree/test/schema
 
 
             //Fagsystem definerer ønsket struktur
             ArkivmeldingForenkletUtgaaende utg = new ArkivmeldingForenkletUtgaaende();
-            utg.sluttbrukerIdentifikator = "Fagsystem";
+            utg.sluttbrukerIdentifikator = "Fagsystemets brukerid";
             utg.nyUtgaaendeJournalpost = new UtgaaendeJournalpost();
-            utg.nyUtgaaendeJournalpost.tittel = "Oppmålingsforretning dokument";
+            utg.nyUtgaaendeJournalpost.referanseEksternNøkkel = new EksternNøkkel();
+            utg.nyUtgaaendeJournalpost.referanseEksternNøkkel.fagsystem = "Fagsystem X";
+            utg.nyUtgaaendeJournalpost.referanseEksternNøkkel.nøkkel = Guid.NewGuid().ToString();
+
+            utg.nyUtgaaendeJournalpost.tittel = "Tillatelse til ...";
             utg.nyUtgaaendeJournalpost.hoveddokument = new ForenkletDokument();
-            utg.nyUtgaaendeJournalpost.hoveddokument.tittel = "Rekvisisjon av oppmålingsforretning";
-            utg.nyUtgaaendeJournalpost.hoveddokument.filnavn = "rekvisisjon.pdf";
+            utg.nyUtgaaendeJournalpost.hoveddokument.tittel = "Vedtak om tillatelse til ...";
+            utg.nyUtgaaendeJournalpost.hoveddokument.filnavn = "vedtak.pdf";
+
+            utg.nyUtgaaendeJournalpost.vedlegg = new List<ForenkletDokument>();
+            var vedlegg1 = new ForenkletDokument();
+            vedlegg1.tittel = "Vedlegg 1";
+            vedlegg1.filnavn = "vedlegg.pdf";
+            utg.nyUtgaaendeJournalpost.vedlegg.Add(vedlegg1);
+
             //osv...
 
             //Konverterer til arkivmelding xml
@@ -122,7 +133,8 @@ namespace ks.fiks.io.fagsystem.arkiv.sample
             //Lager FIKS IO melding
             List<IPayload> payloads = new List<IPayload>();
             payloads.Add(new StringPayload(payload, "utgaaendejournalpost.xml"));
-            payloads.Add(new FilePayload(@"samples\rekvisisjon.pdf"));
+            payloads.Add(new FilePayload(@"samples\vedtak.pdf"));
+            payloads.Add(new FilePayload(@"samples\vedlegg.pdf"));
 
             //Sender til FIKS IO (arkiv løsning)
             var msg = client.Send(messageRequest, payloads).Result;
