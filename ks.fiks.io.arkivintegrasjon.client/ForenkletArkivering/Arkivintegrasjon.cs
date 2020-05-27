@@ -12,6 +12,11 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
         public static arkivmelding ConvertForenkletUtgaaendeToArkivmelding(ArkivmeldingForenkletUtgaaende input) {
             var arkivmld = new arkivmelding();
             arkivmld.system = input.sluttbrukerIdentifikator; //ikke riktig men...
+            if (input.nyUtgaaendeJournalpost != null) {
+                
+
+
+            }
             //TODO mapping
             return arkivmld;
 
