@@ -54,7 +54,7 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// 
 		/// M100 saksdato
 		/// </summary>
-		public DateTime saksdato;
+		public DateTime? saksdato;
 		/// <summary>
 		/// Definisjon: Tittel eller navn på arkivenheten
 		/// 
