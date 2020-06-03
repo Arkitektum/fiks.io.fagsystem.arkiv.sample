@@ -113,29 +113,10 @@ Eksempel på innkommendejournalpost.xml
 <?xml version="1.0" encoding="utf-16"?>
 <arkivmelding xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.arkivverket.no/standarder/noark5/arkivmelding">
   <system>Fagsystem X</system>
-  <meldingId>b6a2c359-0a43-46c0-b26a-606a0fe3464a</meldingId>
-  <tidspunkt>2020-06-02T13:22:52.8745023+02:00</tidspunkt>
+  <meldingId>bff6531b-e079-4828-b0a7-74aecdc90162</meldingId>
+  <tidspunkt>2020-06-03T09:54:46.6747688+02:00</tidspunkt>
   <antallFiler>2</antallFiler>
   <registrering xsi:type="journalpost">
-    <part>
-      <partNavn>Test kommune</partNavn>
-      <partRolle>EM</partRolle>
-      <postadresse>Oppmålingsetaten</postadresse>
-      <postadresse>Rådhusgate 1</postadresse>
-      <postnummer>3801</postnummer>
-      <poststed>Bø</poststed>
-    </part>
-    <part>
-      <partNavn>Anita Avsender</partNavn>
-      <partRolle>EA</partRolle>
-      <postadresse>Gate 1</postadresse>
-      <postnummer>3801</postnummer>
-      <poststed>Bø</poststed>
-    </part>
-    <part>
-      <partNavn>Oppmålingsetaten</partNavn>
-      <partRolle>IM</partRolle>
-    </part>
     <dokumentbeskrivelse>
       <dokumentstatus>F</dokumentstatus>
       <tittel>Rekvisisjon av oppmålingsforretning</tittel>
@@ -153,10 +134,30 @@ Eksempel på innkommendejournalpost.xml
       </dokumentobjekt>
     </dokumentbeskrivelse>
     <tittel>Bestilling av oppmålingsforretning ...</tittel>
+    <korrespondansepart>
+      <korrespondanseparttype>EM</korrespondanseparttype>
+      <korrespondansepartNavn>Test kommune</korrespondansepartNavn>
+      <postadresse>Oppmålingsetaten</postadresse>
+      <postadresse>Rådhusgate 1</postadresse>
+      <postnummer>3801</postnummer>
+      <poststed>Bø</poststed>
+    </korrespondansepart>
+    <korrespondansepart>
+      <korrespondanseparttype>EA</korrespondanseparttype>
+      <korrespondansepartNavn>Anita Avsender</korrespondansepartNavn>
+      <postadresse>Gate 1</postadresse>
+      <postnummer>3801</postnummer>
+      <poststed>Bø</poststed>
+    </korrespondansepart>
+    <korrespondansepart>
+      <korrespondanseparttype>IM</korrespondanseparttype>
+      <korrespondansepartNavn>Oppmålingsetaten</korrespondansepartNavn>
+      <administrativEnhet>Oppmålingsetaten</administrativEnhet>
+    </korrespondansepart>
     <journalposttype>I</journalposttype>
-    <dokumentetsDato>2020-05-31</dokumentetsDato>
-    <mottattDato>2020-06-02T00:00:00+02:00</mottattDato>
-    <offentlighetsvurdertDato>2020-06-02</offentlighetsvurdertDato>
+    <dokumentetsDato>2020-06-01</dokumentetsDato>
+    <mottattDato>2020-06-03T00:00:00+02:00</mottattDato>
+    <offentlighetsvurdertDato>2020-06-03</offentlighetsvurdertDato>
   </registrering>
 </arkivmelding>
 ```
