@@ -28,40 +28,70 @@ TBC
 Eksempel
 ```csharp
 //Fagsystem definerer ønsket struktur
-            ArkivmeldingForenkletInnkommende inng = new ArkivmeldingForenkletInnkommende();
+                        ArkivmeldingForenkletInnkommende inng = new ArkivmeldingForenkletInnkommende();
             inng.sluttbrukerIdentifikator = "Fagsystemets brukerid";
 
-            inng.nyInnkommendeJournalpost = new InnkommendeJournalpost();
-            inng.nyInnkommendeJournalpost.referanseEksternNøkkel = new EksternNøkkel();
-            inng.nyInnkommendeJournalpost.referanseEksternNøkkel.fagsystem = "Fagsystem X";
-            inng.nyInnkommendeJournalpost.referanseEksternNøkkel.nøkkel = Guid.NewGuid().ToString();
+            inng.nyInnkommendeJournalpost = new InnkommendeJournalpost
+            {
+                tittel = "Bestilling av oppmålingsforretning ...",
+                mottattDato = DateTime.Today,
+                dokumentetsDato = DateTime.Today.AddDays(-2),
+                offentlighetsvurdertDato = DateTime.Today
+            };
 
-            inng.nyInnkommendeJournalpost.tittel = "Bestilling av oppmålingsforretning ...";
-            inng.nyInnkommendeJournalpost.mottattDato = DateTime.Today;
-            inng.nyInnkommendeJournalpost.dokumentetsDato = DateTime.Today.AddDays(-2);
-            inng.nyInnkommendeJournalpost.offentlighetsvurdertDato = DateTime.Today;
+            inng.nyInnkommendeJournalpost.referanseEksternNøkkel = new EksternNøkkel
+            {
+                fagsystem = "Fagsystem X",
+                nøkkel = Guid.NewGuid().ToString()
+            };
+            
+            inng.nyInnkommendeJournalpost.internMottaker = new List<KorrespondansepartIntern>
+            {
+                new KorrespondansepartIntern() { administrativEnhet = "Oppmålingsetaten" }
+            };
 
-            inng.nyInnkommendeJournalpost.internMottaker = new List<KorrespondansepartIntern>();
-            inng.nyInnkommendeJournalpost.internMottaker.Add(new KorrespondansepartIntern() { administrativEnhet = "Oppmålingsetaten" });
+            inng.nyInnkommendeJournalpost.mottaker = new List<Korrespondansepart>
+            {
+                new Korrespondansepart() { 
+                    navn = "Test kommune", 
+                    enhetsidentifikator = new Enhetsidentifikator() { 
+                        organisasjonsnummer = "123456789" 
+                    }, 
+                    postadresse = new EnkelAdresse() { 
+                        adresselinje1 = "Oppmålingsetaten", 
+                        adresselinje2 = "Rådhusgate 1", 
+                        postnr = "3801", 
+                        poststed = "Bø" 
+                    } 
+                }
+            };
 
-            inng.nyInnkommendeJournalpost.mottaker = new List<Korrespondansepart>();
-            inng.nyInnkommendeJournalpost.mottaker.Add(new Korrespondansepart() { navn = "Test kommune", enhetsidentifikator = new Enhetsidentifikator() { organisasjonsnummer= "123456789" }, postadresse = new EnkelAdresse() { adresselinje1 = "Oppmålingsetaten", adresselinje2 = "Rådhusgate 1", postnr = "3801", poststed = "Bø" } });
+
+            inng.nyInnkommendeJournalpost.avsender = new List<Korrespondansepart>
+            {
+                new Korrespondansepart() { 
+                    navn = "Anita Avsender", 
+                    postadresse = new EnkelAdresse() { 
+                        adresselinje1 = "Gate 1", 
+                        postnr = "3801", 
+                        poststed = "Bø" } 
+                }
+            };
 
 
-            inng.nyInnkommendeJournalpost.avsender = new List<Korrespondansepart>();
-            inng.nyInnkommendeJournalpost.avsender.Add(new Korrespondansepart() { navn = "Anita Avsender", postadresse = new EnkelAdresse() { adresselinje1 = "Gate 1", postnr = "3801", poststed = "Bø" } });
+            inng.nyInnkommendeJournalpost.hoveddokument = new ForenkletDokument
+            {
+                tittel = "Rekvisisjon av oppmålingsforretning",
+                filnavn = "rekvisisjon.pdf"
+            };
 
-
-
-            inng.nyInnkommendeJournalpost.hoveddokument = new ForenkletDokument();
-            inng.nyInnkommendeJournalpost.hoveddokument.tittel = "Rekvisisjon av oppmålingsforretning";
-            inng.nyInnkommendeJournalpost.hoveddokument.filnavn = "rekvisisjon.pdf";
-
-            inng.nyInnkommendeJournalpost.vedlegg = new List<ForenkletDokument>();
-            var vedlegg1 = new ForenkletDokument();
-            vedlegg1.tittel = "Vedlegg 1";
-            vedlegg1.filnavn = "vedlegg.pdf";
-            inng.nyInnkommendeJournalpost.vedlegg.Add(vedlegg1);
+            inng.nyInnkommendeJournalpost.vedlegg = new List<ForenkletDokument>
+            {
+                new ForenkletDokument(){
+                    tittel = "Vedlegg 1",
+                    filnavn = "vedlegg.pdf"
+                }
+            };
 
             //osv...
 
@@ -134,23 +164,57 @@ Eksempel på innkommendejournalpost.xml
 Eksempel
 ```csharp
             //Fagsystem definerer ønsket struktur
-            ArkivmeldingForenkletUtgaaende utg = new ArkivmeldingForenkletUtgaaende();
-            utg.sluttbrukerIdentifikator = "Fagsystemets brukerid";
-            utg.nyUtgaaendeJournalpost = new UtgaaendeJournalpost();
-            utg.nyUtgaaendeJournalpost.referanseEksternNøkkel = new EksternNøkkel();
-            utg.nyUtgaaendeJournalpost.referanseEksternNøkkel.fagsystem = "Fagsystem X";
-            utg.nyUtgaaendeJournalpost.referanseEksternNøkkel.nøkkel = Guid.NewGuid().ToString();
+                        ArkivmeldingForenkletUtgaaende utg = new ArkivmeldingForenkletUtgaaende
+            {
+                sluttbrukerIdentifikator = "Fagsystemets brukerid",
+                nyUtgaaendeJournalpost = new UtgaaendeJournalpost()
+            };
 
             utg.nyUtgaaendeJournalpost.tittel = "Tillatelse til ...";
-            utg.nyUtgaaendeJournalpost.hoveddokument = new ForenkletDokument();
-            utg.nyUtgaaendeJournalpost.hoveddokument.tittel = "Vedtak om tillatelse til ...";
-            utg.nyUtgaaendeJournalpost.hoveddokument.filnavn = "vedtak.pdf";
+            utg.nyUtgaaendeJournalpost.referanseEksternNøkkel = new EksternNøkkel
+            {
+                fagsystem = "Fagsystem X",
+                nøkkel = Guid.NewGuid().ToString()
+            };
 
-            utg.nyUtgaaendeJournalpost.vedlegg = new List<ForenkletDokument>();
-            var vedlegg1 = new ForenkletDokument();
-            vedlegg1.tittel = "Vedlegg 1";
-            vedlegg1.filnavn = "vedlegg.pdf";
-            utg.nyUtgaaendeJournalpost.vedlegg.Add(vedlegg1);
+            utg.nyUtgaaendeJournalpost.internAvsender = new List<KorrespondansepartIntern>
+            {
+                new KorrespondansepartIntern() { 
+                    saksbehandler = "Sigve Saksbehandler",
+                    referanseSaksbehandler = "60577438-1f97-4c5f-b254-aa758c8786c4"
+                }
+            };
+
+            utg.nyUtgaaendeJournalpost.mottaker = new List<Korrespondansepart>
+            {
+                new Korrespondansepart() { navn = "Mons Mottaker", 
+                    postadresse = new EnkelAdresse() { 
+                        adresselinje1 = "Gate 1", 
+                        postnr = "3801", 
+                        poststed = "Bø" } 
+                },
+                new Korrespondansepart() { navn = "Foretak Mottaker", 
+                    postadresse = new EnkelAdresse() { 
+                        adresselinje1 = "Forretningsgate 1", 
+                        postnr = "3801", 
+                        poststed = "Bø" } 
+                }
+            };
+
+            utg.nyUtgaaendeJournalpost.hoveddokument = new ForenkletDokument
+            {
+                tittel = "Vedtak om tillatelse til ...",
+                filnavn = "vedtak.pdf"
+            };
+
+            utg.nyUtgaaendeJournalpost.vedlegg = new List<ForenkletDokument> 
+            {
+                new ForenkletDokument
+                {
+                    tittel = "Vedlegg 1",
+                    filnavn = "vedlegg.pdf"
+                }
+            };
 
             //osv...
 
@@ -173,8 +237,8 @@ Eksempel på utgaaendejournalpost.xml
 <?xml version="1.0" encoding="utf-16"?>
 <arkivmelding xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.arkivverket.no/standarder/noark5/arkivmelding">
   <system>Fagsystem X</system>
-  <meldingId>2f1c878e-6baa-43ba-aa48-f61130f47668</meldingId>
-  <tidspunkt>2020-05-28T13:23:24.7573189+02:00</tidspunkt>
+  <meldingId>155a634a-fe72-4a3d-9f31-ac56f87126f8</meldingId>
+  <tidspunkt>2020-06-03T09:50:15.5895006+02:00</tidspunkt>
   <antallFiler>2</antallFiler>
   <registrering xsi:type="journalpost">
     <dokumentbeskrivelse>
@@ -194,10 +258,26 @@ Eksempel på utgaaendejournalpost.xml
       </dokumentobjekt>
     </dokumentbeskrivelse>
     <tittel>Tillatelse til ...</tittel>
+    <korrespondansepart>
+      <korrespondanseparttype>EM</korrespondanseparttype>
+      <korrespondansepartNavn>Mons Mottaker</korrespondansepartNavn>
+      <postadresse>Gate 1</postadresse>
+      <postnummer>3801</postnummer>
+      <poststed>Bø</poststed>
+    </korrespondansepart>
+    <korrespondansepart>
+      <korrespondanseparttype>EM</korrespondanseparttype>
+      <korrespondansepartNavn>Foretak Mottaker</korrespondansepartNavn>
+      <postadresse>Forretningsgate 1</postadresse>
+      <postnummer>3801</postnummer>
+      <poststed>Bø</poststed>
+    </korrespondansepart>
+    <korrespondansepart>
+      <korrespondanseparttype>IA</korrespondanseparttype>
+      <korrespondansepartNavn>Sigve Saksbehandler</korrespondansepartNavn>
+      <saksbehandler>Sigve Saksbehandler</saksbehandler>
+    </korrespondansepart>
     <journalposttype>U</journalposttype>
-    <dokumentetsDato>0001-01-01</dokumentetsDato>
-    <sendtDato>0001-01-01T00:00:00</sendtDato>
-    <offentlighetsvurdertDato>0001-01-01</offentlighetsvurdertDato>
   </registrering>
 </arkivmelding>
 ```
@@ -212,3 +292,4 @@ Eksempel på utgaaendejournalpost.xml
 - For fagsystemer så må meldingsprotokoll no.geointegrasjon.arkiv.oppdatering.utvidet støttes som avsender
 - For arkivsystem så må meldingsprotokoll no.geointegrasjon.arkiv.oppdatering.utvidet støttes som mottaker
 - Denne kan feks benytte Difi eFormidling sin [arkivmelding](https://difi.github.io/felleslosninger/eformidling_nm_arkivmeldingen.html)
+

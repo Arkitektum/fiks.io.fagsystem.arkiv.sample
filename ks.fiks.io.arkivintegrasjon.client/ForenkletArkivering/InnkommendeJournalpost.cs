@@ -87,7 +87,10 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		public List<KorrespondansepartIntern> internMottaker;
 
 		public InnkommendeJournalpost(){
-
+			vedlegg = new List<ForenkletDokument>();
+			mottaker = new List<Korrespondansepart>();
+			avsender = new List<Korrespondansepart>();
+			internMottaker = new List<KorrespondansepartIntern>();
 		}
 
 		~InnkommendeJournalpost(){
