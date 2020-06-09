@@ -37,14 +37,23 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		public DateTime? sendtDato;
 		public ForenkletDokument hoveddokument;
 		/// <summary>
-		/// Definisjon: Dato et internt produsert dokument ble sendt/ekspedert
+		/// jpU1 i n4
+		/// </summary>
+		public Boolean skjermetTittel;
+		/// <summary>
+		/// jpOffinnhold i n4
+		/// </summary>
+		public string offentligTittel;
+		/// <summary>
+		/// Definisjon: Datoen da offentlighetsvurdering ble foretatt
 		/// 
-		/// Kilde: Registreres manuelt eller automatisk av systemet ved elektronisk
-		/// kommunikasjon
+		/// Kilde: Registreres automatisk knyttet til funksjonalitet for skjerming
 		/// 
-		/// Kommentar: (ingen)
+		/// Kommentar: Dato for offentlighetsvurdering kan brukes dersom inngående
+		/// dokumenter automatisk blir midlertidig skjermet ved mottak, og
+		/// offentlighetsvurderingen skjer på et litt senere tidspunkt.
 		/// 
-		/// M105 sendtDato
+		/// M110 offentlighetsvurdertDato
 		/// </summary>
 		public DateTime? offentlighetsvurdertDato;
 		public EksternNøkkel referanseEksternNøkkel;

@@ -44,7 +44,7 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// M020
 		/// </summary>
 		public string tittel;
-		private Boolean skjermetDokument;
+		public Boolean skjermetDokument;
 
 		public ForenkletDokument(){
 

@@ -116,18 +116,21 @@ namespace ks.fiks.io.fagsystem.arkiv.sample
                 tittel = "Bestilling av oppmålingsforretning ...",
                 mottattDato = DateTime.Today,
                 dokumentetsDato = DateTime.Today.AddDays(-2),
-                offentlighetsvurdertDato = DateTime.Today
+                offentlighetsvurdertDato = DateTime.Today,
             };
 
             inng.nyInnkommendeJournalpost.referanseEksternNøkkel = new EksternNøkkel
             {
                 fagsystem = "Fagsystem X",
-                nøkkel = Guid.NewGuid().ToString()
+                nøkkel = "e4712424-883c-4068-9cb7-97ac679d7232"
             };
             
             inng.nyInnkommendeJournalpost.internMottaker = new List<KorrespondansepartIntern>
             {
-                new KorrespondansepartIntern() { administrativEnhet = "Oppmålingsetaten" }
+                new KorrespondansepartIntern() { 
+                    administrativEnhet = "Oppmålingsetaten",
+                    referanseAdministrativEnhet = "b631f24b-48fb-4b5c-838e-6a1f7d56fae2"
+                }
             };
 
             inng.nyInnkommendeJournalpost.mottaker = new List<Korrespondansepart>
@@ -150,7 +153,8 @@ namespace ks.fiks.io.fagsystem.arkiv.sample
             inng.nyInnkommendeJournalpost.avsender = new List<Korrespondansepart>
             {
                 new Korrespondansepart() { 
-                    navn = "Anita Avsender", 
+                    navn = "Anita Avsender",
+                    personid = new Personidentifikator() { personidentifikatorType = "F",  personidentifikatorNr = "12345678901"},
                     postadresse = new EnkelAdresse() { 
                         adresselinje1 = "Gate 1", 
                         postnr = "3801", 
@@ -219,7 +223,7 @@ namespace ks.fiks.io.fagsystem.arkiv.sample
             utg.nyUtgaaendeJournalpost.referanseEksternNøkkel = new EksternNøkkel
             {
                 fagsystem = "Fagsystem X",
-                nøkkel = Guid.NewGuid().ToString()
+                nøkkel = "759d7aab-6f41-487d-bdb9-dd177ee887c1"
             };
 
             utg.nyUtgaaendeJournalpost.internAvsender = new List<KorrespondansepartIntern>
@@ -232,13 +236,19 @@ namespace ks.fiks.io.fagsystem.arkiv.sample
 
             utg.nyUtgaaendeJournalpost.mottaker = new List<Korrespondansepart>
             {
-                new Korrespondansepart() { navn = "Mons Mottaker", 
+                new Korrespondansepart() { 
+                    navn = "Mons Mottaker", 
                     postadresse = new EnkelAdresse() { 
                         adresselinje1 = "Gate 1", 
                         postnr = "3801", 
                         poststed = "Bø" } 
                 },
-                new Korrespondansepart() { navn = "Foretak Mottaker", 
+                new Korrespondansepart() { 
+                    navn = "Foretak Mottaker",
+                    enhetsidentifikator = new Enhetsidentifikator() {
+                        organisasjonsnummer = "123456789"
+                    },
+                    kontaktperson = "Kris Kontakt",
                     postadresse = new EnkelAdresse() { 
                         adresselinje1 = "Forretningsgate 1", 
                         postnr = "3801", 

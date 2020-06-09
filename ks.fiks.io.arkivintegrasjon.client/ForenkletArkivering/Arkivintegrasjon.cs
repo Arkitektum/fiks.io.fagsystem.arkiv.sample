@@ -57,8 +57,6 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
                 if (input.nyUtgaaendeJournalpost.journalpostnummer > 0) 
                     journalpst.journalpostnummer = input.nyUtgaaendeJournalpost.journalpostnummer.ToString();
 
-                //TODO skjerming
-
                 if (input.nyUtgaaendeJournalpost.sendtDato.HasValue) {
                     journalpst.sendtDato = input.nyUtgaaendeJournalpost.sendtDato.Value;
                     journalpst.sendtDatoSpecified = true;
@@ -73,6 +71,17 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
                     journalpst.offentlighetsvurdertDato = input.nyUtgaaendeJournalpost.offentlighetsvurdertDato.Value;
                     journalpst.offentlighetsvurdertDatoSpecified = true;
                 }
+                
+                //skjerming
+                if (input.nyUtgaaendeJournalpost.skjermetTittel)
+                {
+                    journalpst.skjerming = new skjerming()
+                    {
+                        skjermingshjemmel = "Offl. § 26.1",
+                        skjermingMetadata = new List<string> { "tittel", "korrespondansepart" }.ToArray()
+                    };
+                }
+
                 //Håndtere alle filer
                 List<dokumentbeskrivelse> dokbliste = new List<dokumentbeskrivelse>();
 
@@ -85,6 +94,14 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
                         tittel = input.nyUtgaaendeJournalpost.hoveddokument.tittel
                     };
 
+                    if (input.nyUtgaaendeJournalpost.hoveddokument.skjermetDokument) {
+                        dokbesk.skjerming = new skjerming()
+                        {
+                            skjermingshjemmel = "Offl. § 26.1",
+                            skjermingDokument = "Hele"
+                        };
+                    }
+                    
                     var dok = new dokumentobjekt
                     {
                         referanseDokumentfil = input.nyUtgaaendeJournalpost.hoveddokument.filnavn
@@ -106,6 +123,7 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
                         dokumentstatus = "F",
                         tilknyttetRegistreringSom = "V",
                         tittel = item.tittel
+                        
                     };
 
                     var dok = new dokumentobjekt
@@ -181,9 +199,10 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
 
         private static korrespondansepart KorrespondansepartToArkivPart(string partRolle, Korrespondansepart mottaker)
         {
-
-            return new korrespondansepart
+            var part= new korrespondansepart
             {
+                 
+               
                 korrespondansepartNavn = mottaker.navn,
                 korrespondanseparttype = partRolle,
                 postadresse = (new List<string>() {
@@ -193,12 +212,45 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
                 }).ToArray(),
                 land = mottaker.postadresse?.landkode,
                 postnummer = mottaker.postadresse?.postnr,
-                poststed = mottaker.postadresse?.poststed
+                poststed = mottaker.postadresse?.poststed,
+                kontaktperson = mottaker.kontaktperson,
+                epostadresse = mottaker.kontaktinformasjon?.epostadresse,
+                telefonnummer = (new List<string>() {
+                    mottaker.kontaktinformasjon?.mobiltelefon,
+                    mottaker.kontaktinformasjon?.telefon
+                }).ToArray()
+                 
             };
+
+            if (mottaker.enhetsidentifikator?.organisasjonsnummer != null) {
+                part.Item = new EnhetsidentifikatorType()
+                    {
+                        organisasjonsnummer = mottaker.enhetsidentifikator.organisasjonsnummer
+                    };
+            }
+            if (mottaker.personid?.personidentifikatorNr != null) {
+                if (mottaker.personid?.personidentifikatorType == "F")
+                {
+                    part.Item = new FoedselsnummerType()
+                    {
+                        foedselsnummer = mottaker.personid?.personidentifikatorNr
+                    };
+                }
+                else {
+                    part.Item = new DNummerType()
+                    {
+                        DNummer = mottaker.personid?.personidentifikatorNr
+                    };
+                }
+            }
+
+            return part;
 
         }
         private static korrespondansepart InternKorrespondansepartToArkivPart(string internKode, KorrespondansepartIntern intern)
         {
+
+
             return  new korrespondansepart
             {
                 korrespondansepartNavn = intern.saksbehandler ?? intern.administrativEnhet,
@@ -219,14 +271,39 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
 
         public static object ConvertForenkletInnkommendeToArkivmelding(ArkivmeldingForenkletInnkommende input)
         {
-            var arkivmld = new arkivmelding();
+            if (input.nyInnkommendeJournalpost == null) throw new Exception("Badrequest - journalpost må være angitt");
 
+            var arkivmld = new arkivmelding();
             int antFiler = 0;
+            saksmappe mappe = null;
+
+            if (input.referanseSaksmappe != null)
+            {
+                mappe = new saksmappe
+                {
+                    saksansvarlig = input.referanseSaksmappe.saksansvarlig,
+                    administrativEnhet = input.referanseSaksmappe.administrativEnhet,
+                    tittel = input.referanseSaksmappe.tittel
+                };
+                if (input.referanseSaksmappe.saksaar > 0)
+                    mappe.saksaar = input.referanseSaksmappe.saksaar.ToString();
+                if (input.referanseSaksmappe.sakssekvensnummer > 0)
+                    mappe.sakssekvensnummer = input.referanseSaksmappe.sakssekvensnummer.ToString();
+
+                if (input.referanseSaksmappe.saksdato.HasValue)
+                {
+                    mappe.saksdato = input.referanseSaksmappe.saksdato.Value;
+                    mappe.saksdatoSpecified = true;
+                }
+                //TODO skjerming, gradering
+            }
 
             if (input.nyInnkommendeJournalpost != null)
             {
                 var journalpst = new journalpost();
                 journalpst.tittel = input.nyInnkommendeJournalpost.tittel;
+                
+
                 journalpst.journalposttype = "I";
                 if (input.nyInnkommendeJournalpost.mottattDato != null)
                 {
@@ -244,19 +321,41 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
                     journalpst.offentlighetsvurdertDatoSpecified = true;
                 }
 
+                journalpst.offentligTittel = input.nyInnkommendeJournalpost.offentligTittel;
+                
+                //skjerming
+                if (input.nyInnkommendeJournalpost.skjermetTittel)
+                {
+                    journalpst.skjerming = new skjerming()
+                    {
+                        skjermingshjemmel = "Offl. § 26.1",
+                        skjermingMetadata = new List<string> { "tittel", "korrespondansepart" }.ToArray()
+                    };
+                }
                 //Håndtere alle filer
                 List<dokumentbeskrivelse> dokbliste = new List<dokumentbeskrivelse>();
                 
                 if (input.nyInnkommendeJournalpost.hoveddokument != null)
                 {
-                    var dokbesk = new dokumentbeskrivelse();
-                    dokbesk.dokumentstatus = "F";
-                    dokbesk.tilknyttetRegistreringSom = "H";
-                    dokbesk.tittel = input.nyInnkommendeJournalpost.hoveddokument.tittel;
-
-                    var dok = new dokumentobjekt();
+                    var dokbesk = new dokumentbeskrivelse
+                    {
+                        dokumentstatus = "F",
+                        tilknyttetRegistreringSom = "H",
+                        tittel = input.nyInnkommendeJournalpost.hoveddokument.tittel
+                    };
                     
-                    dok.referanseDokumentfil = input.nyInnkommendeJournalpost.hoveddokument.filnavn;
+                    if (input.nyInnkommendeJournalpost.hoveddokument.skjermetDokument)
+                    {
+                        dokbesk.skjerming = new skjerming()
+                        {
+                            skjermingshjemmel = "Offl. § 26.1",
+                            skjermingDokument = "Hele"
+                        };
+                    }
+                    var dok = new dokumentobjekt
+                    {
+                        referanseDokumentfil = input.nyInnkommendeJournalpost.hoveddokument.filnavn
+                    };
                     List<dokumentobjekt> dokliste = new List<dokumentobjekt>();
                     dokliste.Add(dok);
 
@@ -309,11 +408,22 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
                 journalpst.korrespondansepart = partsListe.ToArray();
 
 
-                List<journalpost> jliste = new List<journalpost>();
-                jliste.Add(journalpst);
+                List<journalpost> jliste = new List<journalpost>
+                {
+                    journalpst
+                };
 
-
-                arkivmld.Items = jliste.ToArray();
+                if (mappe != null)
+                {
+                    var mappeliste = new List<saksmappe>();
+                    mappe.Items = jliste.ToArray();
+                    mappeliste.Add(mappe);
+                    arkivmld.Items = mappeliste.ToArray();
+                }
+                else
+                {
+                    arkivmld.Items = jliste.ToArray();
+                }
 
             }
             arkivmld.antallFiler = antFiler;

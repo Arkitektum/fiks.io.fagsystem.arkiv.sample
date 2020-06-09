@@ -27,8 +27,8 @@ TBC
 - Opprette en ny innkommende journalpost
 Eksempel
 ```csharp
-//Fagsystem definerer ønsket struktur
-                        ArkivmeldingForenkletInnkommende inng = new ArkivmeldingForenkletInnkommende();
+            //Fagsystem definerer ønsket struktur
+            ArkivmeldingForenkletInnkommende inng = new ArkivmeldingForenkletInnkommende();
             inng.sluttbrukerIdentifikator = "Fagsystemets brukerid";
 
             inng.nyInnkommendeJournalpost = new InnkommendeJournalpost
@@ -113,8 +113,8 @@ Eksempel på innkommendejournalpost.xml
 <?xml version="1.0" encoding="utf-16"?>
 <arkivmelding xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.arkivverket.no/standarder/noark5/arkivmelding">
   <system>Fagsystem X</system>
-  <meldingId>bff6531b-e079-4828-b0a7-74aecdc90162</meldingId>
-  <tidspunkt>2020-06-03T09:54:46.6747688+02:00</tidspunkt>
+  <meldingId>e4712424-883c-4068-9cb7-97ac679d7232</meldingId>
+  <tidspunkt>2020-06-05T14:32:12.2950483+02:00</tidspunkt>
   <antallFiler>2</antallFiler>
   <registrering xsi:type="journalpost">
     <dokumentbeskrivelse>
@@ -137,6 +137,9 @@ Eksempel på innkommendejournalpost.xml
     <korrespondansepart>
       <korrespondanseparttype>EM</korrespondanseparttype>
       <korrespondansepartNavn>Test kommune</korrespondansepartNavn>
+      <organisasjonsnummer>
+        <organisasjonsnummer>123456789</organisasjonsnummer>
+      </organisasjonsnummer>
       <postadresse>Oppmålingsetaten</postadresse>
       <postadresse>Rådhusgate 1</postadresse>
       <postnummer>3801</postnummer>
@@ -155,17 +158,17 @@ Eksempel på innkommendejournalpost.xml
       <administrativEnhet>Oppmålingsetaten</administrativEnhet>
     </korrespondansepart>
     <journalposttype>I</journalposttype>
-    <dokumentetsDato>2020-06-01</dokumentetsDato>
-    <mottattDato>2020-06-03T00:00:00+02:00</mottattDato>
-    <offentlighetsvurdertDato>2020-06-03</offentlighetsvurdertDato>
+    <dokumentetsDato>2020-06-03</dokumentetsDato>
+    <mottattDato>2020-06-05T00:00:00+02:00</mottattDato>
+    <offentlighetsvurdertDato>2020-06-05</offentlighetsvurdertDato>
   </registrering>
 </arkivmelding>
 ```
-- Opprette en ny utgående journalpost [no.geointegrasjon.arkiv.oppdatering.forenklet.nyutgaaendejournalpost.v2](ks.fiks.io.fagsystem.arkiv.sample/schema/no.geointegrasjon.arkiv.oppdatering.forenklet.arkivmeldingforenklet.v2.schema.json) [Eksempel json](ks.fiks.io.fagsystem.arkiv.sample/samples/utgaaendejournalpost.json)
+- Opprette en ny utgående journalpost [no.geointegrasjon.arkiv.oppdatering.forenklet.nyutgaaendejournalpost.v2](ks.fiks.io.fagsystem.arkiv.sample/schema/no.geointegrasjon.arkiv.oppdatering.forenklet.arkivmeldingforenklet.v2.schema.json)
 Eksempel
 ```csharp
             //Fagsystem definerer ønsket struktur
-                        ArkivmeldingForenkletUtgaaende utg = new ArkivmeldingForenkletUtgaaende
+            ArkivmeldingForenkletUtgaaende utg = new ArkivmeldingForenkletUtgaaende
             {
                 sluttbrukerIdentifikator = "Fagsystemets brukerid",
                 nyUtgaaendeJournalpost = new UtgaaendeJournalpost()

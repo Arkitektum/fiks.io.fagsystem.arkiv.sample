@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ks.fiks.io.fagsystem.arkiv.sample", "ks.fiks.io.fagsystem.arkiv.sample\ks.fiks.io.fagsystem.arkiv.sample.csproj", "{38F30466-7A2E-49B9-B343-C2BD4BBAD23E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ks.fiks.io.arkivintegrasjon.client", "ks.fiks.io.arkivintegrasjon.client\ks.fiks.io.arkivintegrasjon.client.csproj", "{7D21A2D0-7EB2-454D-A256-65E814CB40AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ks.fiks.io.arkivintegrasjon.client", "ks.fiks.io.arkivintegrasjon.client\ks.fiks.io.arkivintegrasjon.client.csproj", "{7D21A2D0-7EB2-454D-A256-65E814CB40AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ks.fiks.io.arkivintegrasjon.tests", "ks.fiks.io.arkivintegrasjon.tests\ks.fiks.io.arkivintegrasjon.tests.csproj", "{E7B3F8D5-B6E6-4853-BF4B-363AE1D93F6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7D21A2D0-7EB2-454D-A256-65E814CB40AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D21A2D0-7EB2-454D-A256-65E814CB40AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D21A2D0-7EB2-454D-A256-65E814CB40AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7B3F8D5-B6E6-4853-BF4B-363AE1D93F6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7B3F8D5-B6E6-4853-BF4B-363AE1D93F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7B3F8D5-B6E6-4853-BF4B-363AE1D93F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7B3F8D5-B6E6-4853-BF4B-363AE1D93F6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
