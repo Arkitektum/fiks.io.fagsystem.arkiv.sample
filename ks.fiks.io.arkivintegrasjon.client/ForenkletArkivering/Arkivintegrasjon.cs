@@ -269,7 +269,7 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
             return stringWriter.ToString();
         }
 
-        public static object ConvertForenkletInnkommendeToArkivmelding(ArkivmeldingForenkletInnkommende input)
+        public static arkivmelding ConvertForenkletInnkommendeToArkivmelding(ArkivmeldingForenkletInnkommende input)
         {
             if (input.nyInnkommendeJournalpost == null) throw new Exception("Badrequest - journalpost må være angitt");
 
@@ -328,7 +328,7 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
                 {
                     journalpst.skjerming = new skjerming()
                     {
-                        skjermingshjemmel = "Offl. § 26.1",
+                        skjermingshjemmel = input.nyInnkommendeJournalpost.skjerming?.skjermingshjemmel,
                         skjermingMetadata = new List<string> { "tittel", "korrespondansepart" }.ToArray()
                     };
                 }
@@ -348,7 +348,7 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
                     {
                         dokbesk.skjerming = new skjerming()
                         {
-                            skjermingshjemmel = "Offl. § 26.1",
+                            skjermingshjemmel = input.nyInnkommendeJournalpost.skjerming?.skjermingshjemmel,
                             skjermingDokument = "Hele"
                         };
                     }

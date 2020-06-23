@@ -78,6 +78,8 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// M110 offentlighetsvurdertDato
 		/// </summary>
 		public DateTime? offentlighetsvurdertDato;
+		public Skjerming skjerming;
+
 		public EksternNøkkel referanseEksternNøkkel;
 		public List<ForenkletDokument> vedlegg;
 

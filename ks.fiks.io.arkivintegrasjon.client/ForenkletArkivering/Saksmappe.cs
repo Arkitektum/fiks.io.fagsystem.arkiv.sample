@@ -15,6 +15,8 @@ using System.IO;
 
 
 using FIKS.eMeldingArkiv.eMeldingForenkletArkiv;
+using ks.fiks.io.arkivintegrasjon.client.ForenkletArkivering;
+
 namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 	public class Saksmappe {
 
@@ -44,7 +46,7 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// angir mappetype som blant annet kan brukes som hint til hva som ligger i
 		/// virksomhetsspesifikkemetadata
 		/// </summary>
-		//public Mappetype mappetype;
+		public Kode mappetype;
 		/// <summary>
 		/// Definisjon: Datoen saken er opprettet
 		/// 
@@ -83,6 +85,7 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// M305 administrativEnhet
 		/// </summary>
 		public string administrativEnhet;
+		public string referanseAdministrativEnhet;
 		/// <summary>
 		/// Definisjon: Offentlig tittel på arkivenheten, ord som skal skjermes er fjernet
 		/// fra innholdet i tittelen (erstattet med ******)
@@ -93,7 +96,7 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// M025
 		/// </summary>
 		public string offentligTittel;
-		//public SystemID referanseAdministrativEnhet;
+		
 		/// <summary>
 		/// Definisjon: Navn på person som er saksansvarlig
 		/// 
@@ -105,7 +108,7 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// M306 saksansvarlig
 		/// </summary>
 		public string saksansvarlig;
-		//public SystemID referanseSaksansvarlig;
+		public string referanseSaksansvarlig;
 		/// <summary>
 		/// Definisjon: Status til saksmappen, dvs. hvor langt saksbehandlingen har kommet.
 		/// 
@@ -117,7 +120,7 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// 
 		/// M052 saksstatus
 		/// </summary>
-		//public Saksstatus saksstatus;
+		public string saksstatus;
 		/// <summary>
 		/// Definisjon: Navn på person som avsluttet/lukket arkivenheten
 		/// 
@@ -133,6 +136,11 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// </summary>
 		public Boolean skjermetTittel;
 		public EksternNøkkel referanseEksternNøkkel;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public List<Klasse> klasse;
 
 		public Saksmappe(){
 
