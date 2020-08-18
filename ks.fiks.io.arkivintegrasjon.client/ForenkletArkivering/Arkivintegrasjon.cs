@@ -21,28 +21,12 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
             var arkivmld = new arkivmelding();
             int antFiler = 0;
             saksmappe mappe = null;
-
             if (input.referanseSaksmappe != null)
             {
-                mappe = new saksmappe
-                {
-                    saksansvarlig = input.referanseSaksmappe.saksansvarlig,
-                    administrativEnhet = input.referanseSaksmappe.administrativEnhet,
-                    tittel = input.referanseSaksmappe.tittel
-                };
-                if (input.referanseSaksmappe.saksaar > 0)
-                    mappe.saksaar = input.referanseSaksmappe.saksaar.ToString();
-                if (input.referanseSaksmappe.sakssekvensnummer > 0)
-                    mappe.sakssekvensnummer = input.referanseSaksmappe.sakssekvensnummer.ToString();
+                mappe = ConvertSaksmappe(input.referanseSaksmappe);
 
-                if (input.referanseSaksmappe.saksdato.HasValue)
-                {
-                    mappe.saksdato = input.referanseSaksmappe.saksdato.Value;
-                    mappe.saksdatoSpecified = true;
-                }
-                //TODO skjerming, gradering
             }
-
+           
             if (input.nyUtgaaendeJournalpost != null) {
                 var journalpst = new journalpost
                 {
@@ -279,23 +263,8 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
 
             if (input.referanseSaksmappe != null)
             {
-                mappe = new saksmappe
-                {
-                    saksansvarlig = input.referanseSaksmappe.saksansvarlig,
-                    administrativEnhet = input.referanseSaksmappe.administrativEnhet,
-                    tittel = input.referanseSaksmappe.tittel
-                };
-                if (input.referanseSaksmappe.saksaar > 0)
-                    mappe.saksaar = input.referanseSaksmappe.saksaar.ToString();
-                if (input.referanseSaksmappe.sakssekvensnummer > 0)
-                    mappe.sakssekvensnummer = input.referanseSaksmappe.sakssekvensnummer.ToString();
-
-                if (input.referanseSaksmappe.saksdato.HasValue)
-                {
-                    mappe.saksdato = input.referanseSaksmappe.saksdato.Value;
-                    mappe.saksdatoSpecified = true;
-                }
-                //TODO skjerming, gradering
+                mappe = ConvertSaksmappe(input.referanseSaksmappe);
+                
             }
 
             if (input.nyInnkommendeJournalpost != null)
@@ -432,6 +401,43 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
             arkivmld.tidspunkt = DateTime.Now;
 
             return arkivmld;
+        }
+
+        private static saksmappe ConvertSaksmappe(Saksmappe input)
+        {
+            saksmappe mappe = new saksmappe
+            {
+                saksansvarlig = input.saksansvarlig,
+                administrativEnhet = input.administrativEnhet,
+                tittel = input.tittel
+            };
+            if (input.saksaar > 0)
+                mappe.saksaar = input.saksaar.ToString();
+            if (input.sakssekvensnummer > 0)
+                mappe.sakssekvensnummer = input.sakssekvensnummer.ToString();
+
+            if (input.saksdato.HasValue)
+            {
+                mappe.saksdato = input.saksdato.Value;
+                mappe.saksdatoSpecified = true;
+            }
+
+            if (input.klasse != null)
+            {
+                List<klasse> klasser = new List<klasse>(); 
+                foreach (var kl in input.klasse)
+                {
+                    klasser.Add(new klasse() { klassifikasjonssystem = kl.klassifikasjonssystem, klasseID = kl.klasseID, tittel = kl.tittel });
+                }
+                mappe.klasse = klasser.ToArray();
+            }
+            if (input.referanseEksternNøkkel != null)
+            {
+                //TODO mappe.
+            }
+
+
+            return mappe;
         }
     }
 }

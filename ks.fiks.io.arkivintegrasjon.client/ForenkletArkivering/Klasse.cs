@@ -62,8 +62,9 @@ namespace FIKS.eMeldingArkiv.eMeldingForenkletArkiv {
 		/// klU1 i n4
 		/// </summary>
 		public Boolean skjermetKlasse;
+		public string tittel;
 
-		public Klasse(){
+        public Klasse(){
 
 		}
 

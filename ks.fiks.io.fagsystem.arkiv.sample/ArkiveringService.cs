@@ -196,6 +196,102 @@ namespace ks.fiks.io.fagsystem.arkiv.sample
 
         }
 
+        private void SendInngåendeBrukerhistorie3_1()
+        {
+            Guid receiverId = Guid.Parse(config["sendToAccountId"]); // Receiver id as Guid
+            Guid senderId = Guid.Parse(config["accountId"]); // Sender id as Guid
+
+            var konto = client.Lookup(new LookupRequest("KOMM:0825", "no.geointegrasjon.arkiv.oppdatering.arkivmeldingforenklet.v1", 3)); //TODO for å finne receiverId
+            //Prosess også?
+
+            var messageRequest = new MeldingRequest(
+                                      mottakerKontoId: receiverId,
+                                      avsenderKontoId: senderId,
+                                      meldingType: "no.geointegrasjon.arkiv.oppdatering.arkivmeldingforenkletInnkommende.v1"); // Message type as string
+                                                                                                                               //Se oversikt over meldingstyper på https://github.com/ks-no/fiks-io-meldingstype-katalog/tree/test/schema
+
+
+            //Fagsystem definerer ønsket struktur
+            ArkivmeldingForenkletInnkommende inng = new ArkivmeldingForenkletInnkommende();
+            inng.sluttbrukerIdentifikator = "9hs2ir";
+
+            inng.nyInnkommendeJournalpost = new InnkommendeJournalpost
+            {
+                tittel = "Startlån søknad(Ref=e4reke, SakId=e4reke)",
+                mottattDato = DateTime.Today,
+                dokumentetsDato = DateTime.Today.AddDays(-2),
+                offentlighetsvurdertDato = DateTime.Today
+            };
+
+            inng.nyInnkommendeJournalpost.referanseEksternNøkkel = new EksternNøkkel
+            {
+                fagsystem = "Fagsystem X",
+                nøkkel = "e4reke"
+            };
+
+           
+            inng.nyInnkommendeJournalpost.mottaker = new List<Korrespondansepart>
+            {
+                new Korrespondansepart() {
+                    navn = "Test kommune",
+                    enhetsidentifikator = new Enhetsidentifikator() {
+                        organisasjonsnummer = "123456789"
+                    },
+                    postadresse = new EnkelAdresse() {
+                        adresselinje1 = "Startlån avd",
+                        adresselinje2 = "Rådhusgate 1",
+                        postnr = "3801",
+                        poststed = "Bø"
+                    }
+                }
+            };
+
+
+            inng.nyInnkommendeJournalpost.avsender = new List<Korrespondansepart>
+            {
+                new Korrespondansepart() {
+                    navn = "Anita Søker",
+                    personid = new Personidentifikator() { personidentifikatorType = "F",  personidentifikatorNr = "12345678901"},
+                    postadresse = new EnkelAdresse() {
+                        adresselinje1 = "Gate 1",
+                        postnr = "3801",
+                        poststed = "Bø" }
+                }
+            };
+
+
+            inng.nyInnkommendeJournalpost.hoveddokument = new ForenkletDokument
+            {
+                tittel = "Søknad om startlån",
+                filnavn = "søknad.pdf"
+            };
+
+            inng.nyInnkommendeJournalpost.vedlegg = new List<ForenkletDokument>
+            {
+                new ForenkletDokument(){
+                    tittel = "Vedlegg 1",
+                    filnavn = "vedlegg.pdf"
+                }
+            };
+
+            
+
+            //Konverterer til arkivmelding xml
+            var arkivmelding = Arkivintegrasjon.ConvertForenkletInnkommendeToArkivmelding(inng);
+            string payload = Arkivintegrasjon.Serialize(arkivmelding);
+
+            //Lager FIKS IO melding
+            List<IPayload> payloads = new List<IPayload>();
+            payloads.Add(new StringPayload(payload, "innkommendejournalpost.xml"));
+            payloads.Add(new FilePayload(@"samples\søknad.pdf"));
+            payloads.Add(new FilePayload(@"samples\vedlegg.pdf"));
+
+            //Sender til FIKS IO (arkiv løsning)
+            var msg = client.Send(messageRequest, payloads).Result;
+            Console.WriteLine("Melding " + msg.MeldingId.ToString() + " sendt..." + msg.MeldingType + "...med 1 vedlegg");
+            Console.WriteLine(payload);
+
+        }
 
         private void SendUtgående()
         {

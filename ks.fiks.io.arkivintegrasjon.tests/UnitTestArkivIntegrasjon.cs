@@ -103,6 +103,178 @@ namespace ks.fiks.io.arkivintegrasjon.tests
         }
 
         [Test]
+        public void TestBrukerhistorie3_1()
+        {
+
+            //Fagsystem definerer ønsket struktur
+            ArkivmeldingForenkletInnkommende inng = new ArkivmeldingForenkletInnkommende();
+            inng.sluttbrukerIdentifikator = "9hs2ir";
+
+            inng.referanseSaksmappe = new Saksmappe()
+            {
+                tittel = "Tittel mappe",
+                referanseEksternNøkkel = new EksternNøkkel
+                {
+                    fagsystem = "Fagsystem X",
+                    nøkkel = "e4reke"
+                }
+            };
+
+
+
+            inng.nyInnkommendeJournalpost = new InnkommendeJournalpost
+            {
+                tittel = "Startlån søknad(Ref=e4reke, SakId=e4reke)",
+                mottattDato = DateTime.Today,
+                dokumentetsDato = DateTime.Today.AddDays(-2),
+                offentlighetsvurdertDato = DateTime.Today
+            };
+
+            inng.nyInnkommendeJournalpost.referanseEksternNøkkel = new EksternNøkkel
+            {
+                fagsystem = "Fagsystem X",
+                nøkkel = "e4reke"
+            };
+
+
+            inng.nyInnkommendeJournalpost.mottaker = new List<Korrespondansepart>
+            {
+                new Korrespondansepart() {
+                    navn = "Test kommune",
+                    enhetsidentifikator = new Enhetsidentifikator() {
+                        organisasjonsnummer = "123456789"
+                    },
+                    postadresse = new EnkelAdresse() {
+                        adresselinje1 = "Startlån avd",
+                        adresselinje2 = "Rådhusgate 1",
+                        postnr = "3801",
+                        poststed = "Bø"
+                    }
+                }
+            };
+
+
+            inng.nyInnkommendeJournalpost.avsender = new List<Korrespondansepart>
+            {
+                new Korrespondansepart() {
+                    navn = "Anita Søker",
+                    personid = new Personidentifikator() { personidentifikatorType = "F",  personidentifikatorNr = "12345678901"},
+                    postadresse = new EnkelAdresse() {
+                        adresselinje1 = "Gate 1",
+                        postnr = "3801",
+                        poststed = "Bø" }
+                }
+            };
+
+
+            inng.nyInnkommendeJournalpost.hoveddokument = new ForenkletDokument
+            {
+                tittel = "Søknad om startlån",
+                filnavn = "søknad.pdf"
+            };
+
+            inng.nyInnkommendeJournalpost.vedlegg = new List<ForenkletDokument>
+            {
+                new ForenkletDokument(){
+                    tittel = "Vedlegg 1",
+                    filnavn = "vedlegg.pdf"
+                }
+            };
+
+
+            //Konverterer til arkivmelding xml
+            var arkivmelding = Arkivintegrasjon.ConvertForenkletInnkommendeToArkivmelding(inng);
+            string payload = Arkivintegrasjon.Serialize(arkivmelding);
+
+            Assert.Pass();
+        }
+
+        [Test]
+        public void TestBrukerhistorie3_2()
+        {
+
+            //Fagsystem definerer ønsket struktur
+            ArkivmeldingForenkletInnkommende inng = new ArkivmeldingForenkletInnkommende();
+            inng.sluttbrukerIdentifikator = "9hs2ir";
+
+            inng.referanseSaksmappe = new Saksmappe()
+            {
+                referanseEksternNøkkel = new EksternNøkkel
+                {
+                    fagsystem = "Fagsystem X",
+                    nøkkel = "e4reke"
+                }
+            };
+
+
+            inng.nyInnkommendeJournalpost = new InnkommendeJournalpost
+            {
+                tittel = "Startlån ettersendt vedlegg(Ref=e4reke, SakId=e4reke)",
+                mottattDato = DateTime.Today,
+                dokumentetsDato = DateTime.Today.AddDays(-2),
+                offentlighetsvurdertDato = DateTime.Today
+            };
+
+            inng.nyInnkommendeJournalpost.referanseEksternNøkkel = new EksternNøkkel
+            {
+                fagsystem = "Fagsystem X",
+                nøkkel = "e4reke"
+            };
+
+
+            inng.nyInnkommendeJournalpost.mottaker = new List<Korrespondansepart>
+            {
+                new Korrespondansepart() {
+                    navn = "Test kommune",
+                    enhetsidentifikator = new Enhetsidentifikator() {
+                        organisasjonsnummer = "123456789"
+                    },
+                    postadresse = new EnkelAdresse() {
+                        adresselinje1 = "Startlån avd",
+                        adresselinje2 = "Rådhusgate 1",
+                        postnr = "3801",
+                        poststed = "Bø"
+                    }
+                }
+            };
+
+
+            inng.nyInnkommendeJournalpost.avsender = new List<Korrespondansepart>
+            {
+                new Korrespondansepart() {
+                    navn = "Anita Søker",
+                    personid = new Personidentifikator() { personidentifikatorType = "F",  personidentifikatorNr = "12345678901"},
+                    postadresse = new EnkelAdresse() {
+                        adresselinje1 = "Gate 1",
+                        postnr = "3801",
+                        poststed = "Bø" }
+                }
+            };
+
+
+            inng.nyInnkommendeJournalpost.hoveddokument = new ForenkletDokument
+            {
+                tittel = "Beskrivelse av ettersendte vedlegg",
+                filnavn = "vedleggbeskrivelse.pdf"
+            };
+
+            inng.nyInnkommendeJournalpost.vedlegg = new List<ForenkletDokument>
+            {
+                new ForenkletDokument(){
+                    tittel = "Vedlegg 2",
+                    filnavn = "vedlegg.pdf"
+                }
+            };
+
+
+            //Konverterer til arkivmelding xml
+            var arkivmelding = Arkivintegrasjon.ConvertForenkletInnkommendeToArkivmelding(inng);
+            string payload = Arkivintegrasjon.Serialize(arkivmelding);
+
+            Assert.Pass();
+        }
+
+        [Test]
         public void TestSaksmappeKlasse()
         {
 
@@ -117,11 +289,18 @@ namespace ks.fiks.io.arkivintegrasjon.tests
                 { 
                     new Klasse(){ 
                         klassifikasjonssystem = "GID", 
-                        klasseID = "0822-1/23" 
+                        klasseID = "0822-1/23"
+                       
+                    },
+                    new Klasse(){
+                        klassifikasjonssystem = "Personnummer",
+                        klasseID = "19085830948",
+                        tittel = "Hans Hansen"
                     },
                     new Klasse(){
                         klassifikasjonssystem = "KK",
-                        klasseID = "L3"
+                        klasseID = "L3",
+                        tittel = "Byggesaksbehandling"
                     },
                 },
                 referanseEksternNøkkel = new EksternNøkkel
@@ -129,6 +308,8 @@ namespace ks.fiks.io.arkivintegrasjon.tests
                     fagsystem = "Fagsystem X",
                     nøkkel = "752f5e31-75e0-4359-bdcb-c612ba7a04eb"
                 }
+
+                //Ny matrikkel og Ny bygning
             };
 
             inng.nyInnkommendeJournalpost = new InnkommendeJournalpost
@@ -381,6 +562,15 @@ namespace ks.fiks.io.arkivintegrasjon.tests
 
             //Konverterer til arkivmelding xml
             var arkivmelding = Arkivintegrasjon.ConvertForenkletInnkommendeToArkivmelding(inng);
+
+            //Legge til basismappe
+            mappe basismappe = new mappe();
+            basismappe.mappeID = "2020/12345";
+            basismappe.systemID = "f3fd5a87-8703-4771-834f-5bba65df0223";
+            //basismappe.saksbehandler //ligger på saksmappe  
+            basismappe.tittel = "Hovedmappe tittel";
+
+
 
             foreach (var item in arkivmelding.Items) {
                 if (item is saksmappe) {
