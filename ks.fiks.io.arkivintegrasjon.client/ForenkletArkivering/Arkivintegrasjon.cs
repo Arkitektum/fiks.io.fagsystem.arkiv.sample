@@ -403,6 +403,150 @@ namespace ks.fiks.io.fagsystem.arkiv.sample.ForenkletArkivering
             return arkivmld;
         }
 
+        public static arkivmelding ConvertForenkletNotatToArkivmelding(ArkivmeldingForenkletNotat input)
+        {
+            if (input.nyttNotat == null) throw new Exception("Badrequest -notat må være angitt");
+
+            var arkivmld = new arkivmelding();
+            int antFiler = 0;
+            saksmappe mappe = null;
+
+            if (input.referanseSaksmappe != null)
+            {
+                mappe = ConvertSaksmappe(input.referanseSaksmappe);
+
+            }
+
+            if (input.nyttNotat != null)
+            {
+                var journalpst = new journalpost();
+                journalpst.tittel = input.nyttNotat.tittel;
+
+
+                journalpst.journalposttype = "I";
+                //if (input.nyttNotat.mottattDato != null)
+                //{
+                //    journalpst.mottattDato = input.nyttNotat.mottattDato.Value;
+                //    journalpst.mottattDatoSpecified = true;
+                //}
+                if (input.nyttNotat.dokumentetsDato != null)
+                {
+                    journalpst.dokumentetsDato = input.nyttNotat.dokumentetsDato.Value;
+                    journalpst.dokumentetsDatoSpecified = true;
+                }
+                //if (input.nyttNotat.offentlighetsvurdertDato != null)
+                //{
+                //    journalpst.offentlighetsvurdertDato = input.nyttNotat.offentlighetsvurdertDato.Value;
+                //    journalpst.offentlighetsvurdertDatoSpecified = true;
+                //}
+
+                //journalpst.offentligTittel = input.nyttNotat.offentligTittel;
+
+                ////skjerming
+                //if (input.nyttNotat.skjermetTittel)
+                //{
+                //    journalpst.skjerming = new skjerming()
+                //    {
+                //        skjermingshjemmel = input.nyttNotat.skjerming?.skjermingshjemmel,
+                //        skjermingMetadata = new List<string> { "tittel", "korrespondansepart" }.ToArray()
+                //    };
+                //}
+                //Håndtere alle filer
+                List<dokumentbeskrivelse> dokbliste = new List<dokumentbeskrivelse>();
+
+                if (input.nyttNotat.hoveddokument != null)
+                {
+                    var dokbesk = new dokumentbeskrivelse
+                    {
+                        dokumentstatus = "F",
+                        tilknyttetRegistreringSom = "H",
+                        tittel = input.nyttNotat.hoveddokument.tittel
+                    };
+
+                    if (input.nyttNotat.hoveddokument.skjermetDokument)
+                    {
+                        dokbesk.skjerming = new skjerming()
+                        {
+                            //skjermingshjemmel = input.nyttNotat.skjerming?.skjermingshjemmel,
+                            skjermingDokument = "Hele"
+                        };
+                    }
+                    var dok = new dokumentobjekt
+                    {
+                        referanseDokumentfil = input.nyttNotat.hoveddokument.filnavn
+                    };
+                    List<dokumentobjekt> dokliste = new List<dokumentobjekt>();
+                    dokliste.Add(dok);
+
+                    dokbesk.dokumentobjekt = dokliste.ToArray();
+
+                    dokbliste.Add(dokbesk);
+                    antFiler++;
+                }
+                foreach (var item in input.nyttNotat.vedlegg)
+                {
+                    var dokbesk = new dokumentbeskrivelse();
+                    dokbesk.dokumentstatus = "F";
+                    dokbesk.tilknyttetRegistreringSom = "V";
+                    dokbesk.tittel = item.tittel;
+
+                    var dok = new dokumentobjekt();
+                    dok.referanseDokumentfil = item.filnavn;
+                    List<dokumentobjekt> dokliste = new List<dokumentobjekt>();
+                    dokliste.Add(dok);
+
+                    dokbesk.dokumentobjekt = dokliste.ToArray();
+
+                    dokbliste.Add(dokbesk);
+                    antFiler++;
+
+                }
+                journalpst.dokumentbeskrivelse = dokbliste.ToArray();
+
+                //Korrespondanseparter
+                List<korrespondansepart> partsListe = new List<korrespondansepart>();
+                
+                foreach (var internMottaker in input.nyttNotat.internAvsender)
+                {
+                    korrespondansepart korrpart = InternKorrespondansepartToArkivPart(_internavsenderKode, internMottaker);
+                    partsListe.Add(korrpart);
+                }
+
+                foreach (var internMottaker in input.nyttNotat.internMottaker)
+                {
+                    korrespondansepart korrpart = InternKorrespondansepartToArkivPart(_internmottakerKode, internMottaker);
+                    partsListe.Add(korrpart);
+                }
+
+                journalpst.korrespondansepart = partsListe.ToArray();
+
+
+                List<journalpost> jliste = new List<journalpost>
+                {
+                    journalpst
+                };
+
+                if (mappe != null)
+                {
+                    var mappeliste = new List<saksmappe>();
+                    mappe.Items = jliste.ToArray();
+                    mappeliste.Add(mappe);
+                    arkivmld.Items = mappeliste.ToArray();
+                }
+                else
+                {
+                    arkivmld.Items = jliste.ToArray();
+                }
+
+            }
+            arkivmld.antallFiler = antFiler;
+            arkivmld.system = input.nyttNotat.referanseEksternNøkkel.fagsystem;
+            arkivmld.meldingId = input.nyttNotat.referanseEksternNøkkel.nøkkel;
+            arkivmld.tidspunkt = DateTime.Now;
+
+            return arkivmld;
+        }
+
         private static saksmappe ConvertSaksmappe(Saksmappe input)
         {
             saksmappe mappe = new saksmappe

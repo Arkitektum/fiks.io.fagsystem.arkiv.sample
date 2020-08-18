@@ -275,6 +275,186 @@ namespace ks.fiks.io.arkivintegrasjon.tests
         }
 
         [Test]
+        public void TestBrukerhistorie3_3()
+        {
+            //var messageRequest = new MeldingRequest(
+            //                         mottakerKontoId: receiverId,
+            //                         avsenderKontoId: senderId,
+            //                         meldingType: "no.geointegrasjon.arkiv.oppdatering.arkivmeldingforenkletUtgaaende.v1"); // Message type as string
+            //                                                                                                                //Se oversikt over meldingstyper på https://github.com/ks-no/fiks-io-meldingstype-katalog/tree/test/schema
+
+
+            //Fagsystem definerer ønsket struktur
+            ArkivmeldingForenkletUtgaaende utg = new ArkivmeldingForenkletUtgaaende
+            {
+                sluttbrukerIdentifikator = "9hs2ir",
+                nyUtgaaendeJournalpost = new UtgaaendeJournalpost()
+            };
+
+            utg.referanseSaksmappe = new Saksmappe()
+            {
+                referanseEksternNøkkel = new EksternNøkkel
+                {
+                    fagsystem = "Fagsystem X",
+                    nøkkel = "e4reke"
+                }
+            };
+
+            utg.nyUtgaaendeJournalpost.tittel = "Vedtak og vedtaksgrunnlag for vedtaket(Ref=e4reke, SakId=e4reke)";
+            utg.nyUtgaaendeJournalpost.referanseEksternNøkkel = new EksternNøkkel
+            {
+                fagsystem = "Fagsystem X",
+                nøkkel = "e4reke"
+            };
+
+            utg.nyUtgaaendeJournalpost.internAvsender = new List<KorrespondansepartIntern>
+            {
+                new KorrespondansepartIntern() {
+                    saksbehandler = "Sigve Saksbehandler",
+                    referanseSaksbehandler = "60577438-1f97-4c5f-b254-aa758c8786c4"
+                }
+            };
+
+            utg.nyUtgaaendeJournalpost.mottaker = new List<Korrespondansepart>
+            {
+                new Korrespondansepart() {
+                    navn = "Mons Mottaker",
+                    postadresse = new EnkelAdresse() {
+                        adresselinje1 = "Gate 1",
+                        postnr = "3801",
+                        poststed = "Bø" }
+                },
+                new Korrespondansepart() {
+                    navn = "Foretak Mottaker",
+                    enhetsidentifikator = new Enhetsidentifikator() {
+                        organisasjonsnummer = "123456789"
+                    },
+                    kontaktperson = "Kris Kontakt",
+                    postadresse = new EnkelAdresse() {
+                        adresselinje1 = "Forretningsgate 1",
+                        postnr = "3801",
+                        poststed = "Bø" }
+                }
+            };
+
+            utg.nyUtgaaendeJournalpost.hoveddokument = new ForenkletDokument
+            {
+                tittel = "Vedtak om startlån",
+                filnavn = "vedtak.pdf"
+            };
+
+            utg.nyUtgaaendeJournalpost.vedlegg = new List<ForenkletDokument>
+            {
+                new ForenkletDokument
+                {
+                    tittel = "Vedlegg 1",
+                    filnavn = "vedlegg.pdf"
+                }
+            };
+
+            //osv...
+
+            //Konverterer til arkivmelding xml
+            var arkivmelding = Arkivintegrasjon.ConvertForenkletUtgaaendeToArkivmelding(utg);
+            string payload = Arkivintegrasjon.Serialize(arkivmelding);
+
+            ////Lager FIKS IO melding
+            //List<IPayload> payloads = new List<IPayload>();
+            //payloads.Add(new StringPayload(payload, "utgaaendejournalpost.xml"));
+            //payloads.Add(new FilePayload(@"samples\vedtak.pdf"));
+            //payloads.Add(new FilePayload(@"samples\vedlegg.pdf"));
+
+            ////Sender til FIKS IO (arkiv løsning)
+            //var msg = client.Send(messageRequest, payloads).Result;
+
+            Assert.Pass();
+        }
+
+        [Test]
+        public void TestBrukerhistorie3_4_notat()
+        {
+            //var messageRequest = new MeldingRequest(
+            //                         mottakerKontoId: receiverId,
+            //                         avsenderKontoId: senderId,
+            //                         meldingType: "no.geointegrasjon.arkiv.oppdatering.arkivmeldingforenkletnotat.v1"); // Message type as string
+            //                                                                                                                //Se oversikt over meldingstyper på https://github.com/ks-no/fiks-io-meldingstype-katalog/tree/test/schema
+
+
+            //Fagsystem definerer ønsket struktur
+            ArkivmeldingForenkletNotat notat = new ArkivmeldingForenkletNotat
+            {
+                sluttbrukerIdentifikator = "9hs2ir",
+                nyttNotat = new OrganinterntNotat()
+               
+            };
+
+            notat.referanseSaksmappe = new Saksmappe()
+            {
+                referanseEksternNøkkel = new EksternNøkkel
+                {
+                    fagsystem = "Fagsystem X",
+                    nøkkel = "e4reke"
+                }
+                ,
+                klasse = new List<Klasse>
+                {
+                    new Klasse(){
+                        klassifikasjonssystem = "Søknadsreferanse",
+                        klasseID = "9hs2ir"
+
+                    }
+                },
+            };
+
+            notat.nyttNotat.tittel = "Internt notat ved innstilling(Ref=e4reke, SakId=e4reke)";
+            notat.nyttNotat.referanseEksternNøkkel = new EksternNøkkel
+            {
+                fagsystem = "Fagsystem X",
+                nøkkel = "e4reke"
+            };
+
+            notat.nyttNotat.internAvsender = new List<KorrespondansepartIntern>
+            {
+                new KorrespondansepartIntern() {
+                    saksbehandler = "Ståle Låne",
+                    referanseSaksbehandler = "325abaf3-f607-4fe1-9413-91145db22d1f"
+                }
+            };
+            
+            notat.nyttNotat.internMottaker = new List<KorrespondansepartIntern>
+            {
+                new KorrespondansepartIntern() {
+                    saksbehandler = "Sigve Saksbehandler",
+                    referanseSaksbehandler = "60577438-1f97-4c5f-b254-aa758c8786c4"
+                }
+            };
+
+
+            notat.nyttNotat.hoveddokument = new ForenkletDokument
+            {
+                tittel = "Internt notat ved innstilling",
+                filnavn = "notat.pdf"
+            };
+
+           
+
+            //Konverterer til arkivmelding xml
+            var arkivmelding = Arkivintegrasjon.ConvertForenkletNotatToArkivmelding(notat);
+            string payload = Arkivintegrasjon.Serialize(arkivmelding);
+
+            ////Lager FIKS IO melding
+            //List<IPayload> payloads = new List<IPayload>();
+            //payloads.Add(new StringPayload(payload, "notat.xml"));
+            //payloads.Add(new FilePayload(@"samples\notat.pdf"));
+            //payloads.Add(new FilePayload(@"samples\vedlegg.pdf"));
+
+            ////Sender til FIKS IO (arkiv løsning)
+            //var msg = client.Send(messageRequest, payloads).Result;
+
+            Assert.Pass();
+        }
+
+        [Test]
         public void TestSaksmappeKlasse()
         {
 
